@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 
 import {PagesComponent} from './pages.component';
 import {DashboardModule} from './dashboard/dashboard.module';
@@ -24,6 +24,7 @@ const PAGES_COMPONENTS = [
     ...PAGES_COMPONENTS,
     MinatorComponent
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class PagesModule {
 }

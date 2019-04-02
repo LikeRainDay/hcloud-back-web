@@ -1,3 +1,16 @@
-<div class="container-fluid">
-  <my-iframe [src]="frameUrl"></my-iframe>
+<div class="row" style="margin-bottom: 10px">
+  <div class="container-btn col-md-4 offset-2">
+    <button nbButton status="primary" (click)="clickToZipkin()">
+      <span>zipkin</span>
+    </button>
+  </div>
+  <div class="container-btn col-md-4 offset-2">
+    <button nbButton status="primary" (click)="clickToMinator()">
+      <span>minator</span>
+    </button>
+  </div>
 </div>
+<my-iframe [src]="frameUrl"></my-iframe>
+
+
+
