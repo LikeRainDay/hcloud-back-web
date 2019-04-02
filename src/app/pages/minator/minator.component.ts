@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit, Output} from '@angular/core';
+import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
 
 @Component({
   selector: 'ngx-minator',
@@ -7,7 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MinatorComponent implements OnInit {
 
-  constructor() { }
+  // minatorUrl: String = "http://hcloud-minator:3456";
+  frameUrl: SafeResourceUrl;
+
+  constructor(private sanitizer: DomSanitizer) {
+    let url = "http://www.baidu.com";
+    this.frameUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url)
+  }
 
   ngOnInit() {
   }
