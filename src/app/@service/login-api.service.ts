@@ -1,7 +1,10 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable, of} from "rxjs";
 import {catchError} from "rxjs/operators";
+
+const scope = 'server';
+const AUTHORIZATION = "Basic cGlnOnBpZw==";
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +15,108 @@ export class LoginApiService {
   }
 
   /*
-  * desc: 通过用户登录
+  * desc: 通过用户密码登录
   * */
-  loginWithPassword(username: string, password: string): Observable<any> {
-    let url: '/auth/oauth/token';
+  public loginByPassword(username: string, password: string, code: string, randomStr: string): Observable<any> {
+    const url = '/auth/oauth/token';
+    const grant_type = 'password';
+    let header = new HttpHeaders();
+    header.set("isToken", "false");
+    header.set("TENANT_ID", "1");
+    header.set("Authorization", AUTHORIZATION);
+    return this.http.post<any>(url, {
+      username: username,
+      password: password,
+      randomStr: randomStr,
+      code: code,
+      grant_type: grant_type,
+      scope: scope
+    }, {
+      headers: header
+    }).pipe(
+      catchError(this.handleError("loginByPassword", []))
+    )
+  }
+
+  /*
+  * 刷新token
+  * */
+  public refreshToken(refresh_token: string): Observable<any> {
+    const url = '/auth/oauth/token';
+    const grant_type = 'refresh_token';
+    let header = new HttpHeaders();
+    header.set("isToken", "false");
+    header.set("TENANT_ID", "1");
+    header.set("Authorization", AUTHORIZATION);
+    return this.http.post<any>(url, {
+      grant_type: grant_type,
+      refresh_token: refresh_token,
+      scope: scope
+    }, {
+      headers: header
+    }).pipe(
+      catchError(this.handleError("refreshToken", []))
+    )
+  }
+
+  /*
+  * 通过手机登录
+  * */
+  public loginByMobile(mobile: string, code: string): Observable<any> {
+    const url = '/auth/mobile/token/sms';
+    const grant_type = 'mobile';
+    let header = new HttpHeaders();
+    header.set("isToken", "false");
+    header.set("TENANT_ID", "1");
+    header.set("Authorization", AUTHORIZATION);
+    return this.http.post<any>(url, {
+      mobile: 'SMS@' + mobile,
+      code: code,
+      scope: scope
+    }, {
+      headers: header
+    }).pipe(
+      catchError(this.handleError("loginByMobile", []))
+    )
+  }
+
+  /*
+  * 通过第三方账号登录
+  * */
+  public loginBySocial(state: string, code: string): Observable<any> {
+    const url = '/auth/mobile/token/social';
+    const grant_type = 'mobile';
+    let header = new HttpHeaders();
+    header.set("isToken", "false");
+    header.set("TENANT_ID", "1");
+    header.set("Authorization", AUTHORIZATION);
+    return this.http.post<any>(url, {
+      mobile: state + '@' + code,
+      scope: scope
+    }, {
+      headers: header
+    }).pipe(
+      catchError(this.handleError("loginBySocial", []))
+    )
+  }
+
+  /*
+  * 获取登录用户的详情
+  * */
+  public getUserInfo(): Observable<any> {
+    const url = '/admin/user/info';
     return this.http.get<any>(url).pipe(
-      catchError(this.handleError("login", []))
+      catchError(this.handleError("getUserInfo", []))
+    )
+  }
+
+  /*
+  * 用户登出
+  * */
+  public userLogout(): Observable<any> {
+    const url = '/auth/token/logout';
+    return this.http.delete<any>(url).pipe(
+      catchError(this.handleError("userLogout", []))
     )
   }
 
