@@ -34,7 +34,7 @@ import { NebularSelectComponent } from './form-inputs/nebular-select/nebular-sel
 import { CalendarKitFullCalendarShowcaseComponent } from './calendar-kit/calendar-kit.component';
 import { CalendarKitMonthCellComponent } from './calendar-kit/month-cell/month-cell.component';
 
-// service
+// @service
 import { NewsService } from './services/news.service';
 
 const COMPONENTS = [
