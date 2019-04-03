@@ -10,7 +10,7 @@ const BASE_URL = "http://hcloud-gateway:10001";
  *  <p> 此拦截器对全局接口 进行增加baseurl 并设置 localstorage 存储的数据内容
  * */
 @Injectable()
-export class LoginApiService implements HttpInterceptor {
+export class BseInterceptorService implements HttpInterceptor {
 
   constructor() {
   }
