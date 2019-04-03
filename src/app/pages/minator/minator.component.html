@@ -1,13 +1,6 @@
 <div class="row" style="margin-bottom: 10px">
-  <div class="container-btn col-md-4 offset-2">
-    <button nbButton status="primary" (click)="clickToZipkin()">
-      <span>zipkin</span>
-    </button>
-  </div>
-  <div class="container-btn col-md-4 offset-2">
-    <button nbButton status="primary" (click)="clickToMinator()">
-      <span>minator</span>
-    </button>
+  <div class="container-btn col-md-3 " *ngFor="let it of url">
+    <button nbButton status="{{it.status}}" (click)="redirectUrl(it.url)">{{ it.title }}</button>
   </div>
 </div>
 <my-iframe [src]="frameUrl"></my-iframe>
